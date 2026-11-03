@@ -18,4 +18,6 @@ application-local.properties
 
 # OS files
 .DS_Store
-Thumbs.db
+Thumbs.db 
+**/node_modules/
+**/dist/
