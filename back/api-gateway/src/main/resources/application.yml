@@ -1,0 +1,63 @@
+server:
+  port: 8080
+  error:
+    include-stacktrace: never
+    include-message: always
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: ${GATEWAY_CONNECT_TIMEOUT:5000}
+        response-timeout: ${GATEWAY_RESPONSE_TIMEOUT:10000}
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: ${FRONTEND_URL:http://localhost:3000}
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - Authorization
+              - Content-Type
+              - X-Correlation-ID
+            allowCredentials: false
+      routes:
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/api/auth/**
+        - id: policy-service
+          uri: lb://POLICY-SERVICE
+          predicates:
+            - Path=/api/policies/**
+        - id: claim-service
+          uri: lb://CLAIM-SERVICE
+          predicates:
+            - Path=/api/claims/**
+        - id: settlement-service
+          uri: lb://SETTLEMENT-SERVICE
+          predicates:
+            - Path=/api/settlements/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info

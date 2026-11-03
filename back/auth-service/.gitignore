@@ -1,0 +1,17 @@
+# Build artifacts
+target/
+*.jar
+*.war
+*.ear
+*.log
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# Secrets and environment files
+.env
+*.env
+.env.*
+!.env.example

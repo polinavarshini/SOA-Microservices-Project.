@@ -1,0 +1,14 @@
+# Build artifacts
+target/
+*.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Secrets
+.env
+*.env
+.env.*
+!.env.example
